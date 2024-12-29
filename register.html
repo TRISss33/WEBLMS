@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Register - Bimbel-Ku.com</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="img/favicon.ico" rel="icon">
+    <style>
+        body {
+            background-image: url('login-background.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h1 class="m-0 text-primary">BIMBEL-KU</h1>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0" id="authLinks"></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Register</h1>
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" class="form-control" placeholder="Username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-block">Register</button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <h5>Already have an account? <a href="login.html">Login here</a></h5>
+                        </div>
+                        <div id="message" class="text-center mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menampilkan/mengganti tautan berdasarkan status login
+        const authLinks = document.getElementById('authLinks');
+        const isLoggedIn = localStorage.getItem('loggedIn');
+        if (isLoggedIn) {
+            const username = localStorage.getItem('username');
+            authLinks.innerHTML = `<a href="profile.html" class="nav-item nav-link"><i class="fas fa-user"></i> ${username}</a>
+                                   <a href="#" onclick="logout()" class="nav-item nav-link">Logout</a>`;
+        } else {
+            authLinks.innerHTML = `<a href="login.html" class="nav-item nav-link">Login</a>`;
+        }
+
+        // Fungsi logout
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
+            alert('You have been logged out.');
+            window.location.href = 'index.html';
+        }
+
+        // Proses registrasi
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const message = document.getElementById('message');
+
+            if (password !== confirmPassword) {
+                message.innerHTML = `<div class="alert alert-danger">Passwords do not match!</div>`;
+                return;
+            }
+
+            // Cek apakah username sudah terdaftar
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.find(u => u.username === username)) {
+                message.innerHTML = `<div class="alert alert-danger">Username already exists!</div>`;
+                return;
+            }
+
+            // Simpan data user baru
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            message.innerHTML = `<div class="alert alert-success">Registration successful! <a href="login.html">Login here</a>.</div>`;
+        });
+    </script>
+</body>
+</html>

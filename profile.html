@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bimbel-Ku.com</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link href="img/favicon.ico" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <h1 class="m-0 text-primary"><i class="fa fa-arrow-left text-primary me-2"></i></>BIMBEL-KU</h1>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="index.html" class="nav-item nav-link active">Beranda</a>
+                <a href="kuis.html" class="nav-item nav-link">Soal</a>
+                <a href="contact.html" class="nav-item nav-link">Kontak</a>
+                <a href="profile.html" class="nav-item nav-link"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Profile Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <img id="profile-img" class="img-fluid rounded-circle mb-4" src="default-profile.jpg" alt="User Photo" style="width: 200px; height: 200px;">
+                    <h2 id="username">Username</h2>
+                    <p id="bio" class="mb-4">Bio: </p>
+                    <p id="tanggal_lahir" class="mb-2"><strong>Tanggal Lahir: </strong> 1990-01-01 </p>
+                    <p id="hobi" class="mb-2"><strong>Hobi: </strong> Membaca </p>
+                    <p id="status" class="mb-4"><strong>Status: </strong> Mahasiswa </p>
+                    <button id="edit-profile" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
+                    <button id="logout" class="btn btn-danger">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Profile End -->
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfileForm">
+                        <div class="mb-3">
+                            <label for="newNama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="newNama" name="newNama">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newProfilePicture" class="form-label">Foto Profil</label>
+                            <input type="file" class="form-control" id="newProfilePicture" name="newProfilePicture" onchange="previewImage(this)">
+                            <img id="preview" src="#" alt="Preview" style="display: none; max-width: 200px; margin-top: 10px;">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newBio" class="form-label">Bio</label>
+                            <textarea class="form-control" id="newBio" name="newBio" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="newTanggalLahir" class="form-label">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="newTanggalLahir" name="newTanggalLahir">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newHobi" class="form-label">Hobi</label>
+                            <input type="text" class="form-control" id="newHobi" name="newHobi">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newStatus" class="form-label">Status</label>
+                            <select class="form-control" id="newStatus" name="newStatus">
+                                <option value="Mahasiswa">Mahasiswa</option>
+                                <option value="Pelajar">Pelajar</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Profile Modal End -->
+
+    <script>
+        // Fungsi untuk preview gambar
+        function previewImage(input) {
+            var preview = document.getElementById('preview');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.style.display = 'block';
+                    preview.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    
+        // Fungsi untuk logout
+        document.getElementById('logout').addEventListener('click', function() {
+            // Redirect ke halaman login (tanpa menghapus data profil)
+            window.location.href = 'login.html';
+        });
+    
+        // Fungsi untuk memuat data pengguna dari localStorage
+        function loadProfile() {
+            const username = localStorage.getItem('username') || 'Username';
+            const bio = localStorage.getItem('bio') || '';
+            const tanggalLahir = localStorage.getItem('tanggal_lahir') || '1990-01-01';
+            const hobi = localStorage.getItem('hobi') || 'Membaca';
+            const status = localStorage.getItem('status') || 'Mahasiswa';
+            const profilePicture = localStorage.getItem('profilePicture') || 'default-profile.jpg';
+    
+            document.getElementById('username').innerText = username;
+            document.getElementById('bio').innerText = 'Bio: ' + bio;
+            document.getElementById('tanggal_lahir').innerText = 'Tanggal Lahir: ' + tanggalLahir;
+            document.getElementById('hobi').innerText = 'Hobi: ' + hobi;
+            document.getElementById('status').innerText = 'Status: ' + status;
+            document.getElementById('profile-img').src = profilePicture;
+        }
+    
+        // Panggil loadProfile saat halaman dimuat
+        window.onload = loadProfile;
+    
+        // Fungsi untuk menyimpan perubahan profil
+        document.getElementById('editProfileForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form untuk submit seperti biasa
+    
+            // Ambil data dari form
+            const username = document.getElementById('newNama').value || 'Username';
+            const bio = document.getElementById('newBio').value || '';
+            const tanggalLahir = document.getElementById('newTanggalLahir').value || '1990-01-01';
+            const hobi = document.getElementById('newHobi').value || 'Membaca';
+            const status = document.getElementById('newStatus').value || 'Mahasiswa';
+            const profilePicture = document.getElementById('newProfilePicture').files[0] 
+                ? URL.createObjectURL(document.getElementById('newProfilePicture').files[0]) 
+                : localStorage.getItem('profilePicture') || 'default-profile.jpg';
+    
+            // Simpan data di localStorage
+            localStorage.setItem('username', username);
+            localStorage.setItem('bio', bio);
+            localStorage.setItem('tanggal_lahir', tanggalLahir);
+            localStorage.setItem('hobi', hobi);
+            localStorage.setItem('status', status);
+            localStorage.setItem('profilePicture', profilePicture);
+    
+            // Perbarui tampilan profil
+            loadProfile();
+    
+            // Tutup modal
+            $('#editProfileModal').modal('hide');
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
