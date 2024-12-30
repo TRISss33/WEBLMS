@@ -68,8 +68,7 @@
         const isLoggedIn = localStorage.getItem('loggedIn');
         if (isLoggedIn) {
             const username = localStorage.getItem('username');
-            authLinks.innerHTML = `<a href="profile.html" class="nav-item nav-link"><i class="fas fa-user"></i> ${username}</a>
-                                   <a href="#" onclick="logout()" class="nav-item nav-link">Logout</a>`;
+            authLinks.innerHTML = ``;
         } else {
             authLinks.innerHTML = `<a href="login.html" class="nav-item nav-link">Login</a>`;
         }
